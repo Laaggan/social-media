@@ -1,0 +1,1 @@
+INSERT INTO dbo.Users (Id, Name, Age) VALUES (MAX([Id]) + 1, 'Göran', 50)
