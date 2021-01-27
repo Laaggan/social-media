@@ -9,6 +9,7 @@ import { TestHooks } from './components/TestHooks';
 import { ShowAllUsers } from './components/ShowAllUsers';
 import { AddNewUser } from './components/AddNewUser';
 import { CreateTweet } from './components/CreateTweet';
+import { ShowFeed } from './components/ShowFeed';
 
 import './custom.css'
 
@@ -27,6 +28,7 @@ export default class App extends Component {
         <Route path='/show-all-users' component={ShowAllUsers} />
         <Route path='/add-new-user' component={AddNewUser} />
         <Route path='/create-tweet' component={CreateTweet} />
+        <Route path='/show-feed' component={ShowFeed} />
       </Layout>
     );
   }
