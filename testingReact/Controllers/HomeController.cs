@@ -10,6 +10,7 @@ using Dapper_ORM.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using testingReact;
 
 namespace Dapper_ORM.Controllers
 {
@@ -89,6 +90,16 @@ namespace Dapper_ORM.Controllers
         {
             using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
             return Task.FromResult(db.Execute($"INSERT INTO [dbo].[Tweets](Tweet, UserId) VALUES (@Tweet, @UserId)", new { Tweet = tweet, UserId = userId }));
+        }
+
+        [HttpGet(nameof(GetAllTweetData))]
+        public Task<List<TweetViewModel>> GetAllTweetData()
+        {
+            var sql = @"SELECT Tweet, UserName FROM Tweets t
+                        INNER JOIN Users u ON t.UserId = u.Id
+                        ORDER BY t.created_at DESC";
+            using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
+            return Task.FromResult(db.Query<TweetViewModel>(sql).ToList());
         }
     }
 }
