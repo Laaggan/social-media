@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -8,6 +9,7 @@ using Dapper_ORM.Models;
 using Dapper_ORM.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Dapper_ORM.Controllers
 {
@@ -16,10 +18,16 @@ namespace Dapper_ORM.Controllers
     public class HomeController : ControllerBase
     {
         private readonly IDapper _dapper;
-        public HomeController(IDapper dapper)
+        private readonly IDbConnection _db;
+        private readonly IConfiguration _config;
+        private string Connectionstring = "DefaultConnection";
+        //public HomeController(IDapper dapper, IDbConnection db)
+        public HomeController(IDapper dapper, IConfiguration config)
         {
             _dapper = dapper;
-        }
+            _config = config;
+            
+    }
         [HttpPost(nameof(Create))]
         public async Task<int> Create(Parameters data)
         {
@@ -60,13 +68,26 @@ namespace Dapper_ORM.Controllers
         public Task<int> Update(Parameters data)
         {
             var dbPara = new DynamicParameters();
-            dbPara.Add("Id", data.Id);
-            dbPara.Add("Name", data.UserName, DbType.String);
+            dbPara.Add("UserName", data.UserName, DbType.String);
+            dbPara.Add("Age", data.Age, DbType.String);
 
-            var updateArticle = Task.FromResult(_dapper.Update<int>("[dbo].[SP_Update_Article]",
+            var updateArticle = Task.FromResult(_dapper.Insert<int>($"INSERT INTO [dbo].[Users](UserName, Age) VALUES ({data.UserName}, {data.Age})",
                             dbPara,
-                            commandType: CommandType.StoredProcedure));
+                            commandType: CommandType.Text));
             return updateArticle;
+        }
+
+        [HttpPost(nameof(AddNewUser))]
+        public Task<int> AddNewUser(string userName, int age)
+        {
+            //var dbPara = new DynamicParameters();
+            //dbPara.Add("UserName", userName, DbType.String);
+            //dbPara.Add("Age", age, DbType.String);
+
+            //var updateArticle = Task.FromResult(_dapper.Execute($"INSERT INTO [dbo].[Users](UserName, Age) VALUES (userName, age)", dbPara, commandType: CommandType.Text));
+            //return updateArticle;
+            using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
+            return Task.FromResult(db.Execute($"INSERT INTO [dbo].[Users](UserName, Age) VALUES (@UserName, @Age)", new { UserName = userName, Age = age }));
         }
     }
 }
