@@ -83,5 +83,12 @@ namespace Dapper_ORM.Controllers
             using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
             return Task.FromResult(db.Execute($"INSERT INTO [dbo].[Users](UserName, Age) VALUES (@UserName, @Age)", new { UserName = userName, Age = age }));
         }
+
+        [HttpPost(nameof(CreateTweet))]
+        public Task<int> CreateTweet(string userId, string tweet)
+        {
+            using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
+            return Task.FromResult(db.Execute($"INSERT INTO [dbo].[Tweets](Tweet, UserId) VALUES (@Tweet, @UserId)", new { Tweet = tweet, UserId = userId }));
+        }
     }
 }

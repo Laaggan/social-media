@@ -8,6 +8,7 @@ import { Test } from './components/Test';
 import { TestHooks } from './components/TestHooks';
 import { ShowAllUsers } from './components/ShowAllUsers';
 import { AddNewUser } from './components/AddNewUser';
+import { CreateTweet } from './components/CreateTweet';
 
 import './custom.css'
 
@@ -22,9 +23,10 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/test' component={Test} />
-            <Route path='/test-hooks' component={TestHooks} />
-            <Route path='/show-all-users' component={ShowAllUsers} />
-            <Route path='/add-new-user' component={AddNewUser} />
+        <Route path='/test-hooks' component={TestHooks} />
+        <Route path='/show-all-users' component={ShowAllUsers} />
+        <Route path='/add-new-user' component={AddNewUser} />
+        <Route path='/create-tweet' component={CreateTweet} />
       </Layout>
     );
   }
