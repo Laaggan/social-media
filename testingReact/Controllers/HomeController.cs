@@ -80,12 +80,6 @@ namespace Dapper_ORM.Controllers
         [HttpPost(nameof(AddNewUser))]
         public Task<int> AddNewUser(string userName, int age)
         {
-            //var dbPara = new DynamicParameters();
-            //dbPara.Add("UserName", userName, DbType.String);
-            //dbPara.Add("Age", age, DbType.String);
-
-            //var updateArticle = Task.FromResult(_dapper.Execute($"INSERT INTO [dbo].[Users](UserName, Age) VALUES (userName, age)", dbPara, commandType: CommandType.Text));
-            //return updateArticle;
             using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
             return Task.FromResult(db.Execute($"INSERT INTO [dbo].[Users](UserName, Age) VALUES (@UserName, @Age)", new { UserName = userName, Age = age }));
         }
