@@ -41,10 +41,12 @@ async function getProfileById(id) {
 const UserDisplay = (props) => {
     const [profiles, setProfiles] = useState([{ id: null, userName: '', age: null }]);
 
-    useEffect(async () => {
-        const data = await props.getAllProfiles();
-        setProfiles([...data]);
-        debugger;
+    useEffect(() => {
+        async function fetchData() {
+            const data = await props.getAllProfiles();
+            setProfiles([...data]);
+        }
+        fetchData();
     }, [])
     
     return (

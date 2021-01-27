@@ -45,7 +45,7 @@ const TweetForm = (props) => {
                 name="name"
                 value={tweet}
                 onChange={e => setTweet(e.target.value)}
-                maxlength="255"
+                maxLength="255"
             />
             </label>
             </form>

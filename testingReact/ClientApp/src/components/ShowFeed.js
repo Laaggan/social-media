@@ -45,6 +45,7 @@ async function getProfileById(id) {
 
 const TweetView = (props) => {
     const [tweets, setTweets] = useState([]);
+    const [filterName, setFilterName] = useState([]);
 
     const distinct = (value, index, self) => {
         return self.indexOf(value) === index;
@@ -55,38 +56,38 @@ const TweetView = (props) => {
         return userNames.filter(distinct)
     }
 
-    var userNames = getUserNames(tweets);
-    var userNamesOptions = userNames.map(
+    var userNamesOptions = getUserNames(tweets).map(
         function (u) {
             var option = { value: u, label: u }
             return option
         }
     );
-    debugger;
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanillazzz' }
-    ]
 
-    useEffect(async () => {
-        const data = await props.getAllTweets();
-        setTweets([...data]);
+    useEffect(() => {
+        async function fetchData() {
+            const data = await props.getAllTweets();
+            setTweets([...data]);
+        }
+        fetchData();
     }, [])
 
     return (
         <>
             <div>
-                <Select options={userNamesOptions} />
+                <Select
+                    options={userNamesOptions}
+                />
             </div>
             <div>
             {tweets.map(tweet =>
                 <TweetDisplay
+                    key={tweet.tweetId}
                     userName={tweet.userName}
                     tweet={tweet.tweet}
                 />
                 )}
             </div>
+            <p>{filterName}</p>
         </>
     )
 }

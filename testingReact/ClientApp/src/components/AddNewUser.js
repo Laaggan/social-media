@@ -50,8 +50,6 @@ const NewUserForm = (props) => {
             </label>
             </form>
             <button style={{ display: 'block' }} className="btn btn-primary" onClick={() => props.AddUserToDb({ UserName: userName, Age: age }).then(cleanForm())}>Add user</button>
-            <p> {userName} </p>
-            <p> {age} </p>
         </>
         )
 }

@@ -95,7 +95,7 @@ namespace Dapper_ORM.Controllers
         [HttpGet(nameof(GetAllTweetData))]
         public Task<List<TweetViewModel>> GetAllTweetData()
         {
-            var sql = @"SELECT Tweet, UserName FROM Tweets t
+            var sql = @"SELECT t.Tweet, u.UserName, t.Id AS TweetId FROM Tweets t
                         INNER JOIN Users u ON t.UserId = u.Id
                         ORDER BY t.created_at DESC";
             using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
