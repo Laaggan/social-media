@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export class ShowAllUsers extends Component {
     static displayName = ShowAllUsers.name;
@@ -62,7 +63,9 @@ const UserDisplay = (props) => {
                 <tbody>
                 {profiles.map(profile_ =>
                     <tr key={profile_.id}>
-                        <td>{profile_.userName}</td>
+                        <Link to={"user/" + profile_.id}>
+                            <td>{profile_.userName}</td>
+                        </Link>
                         <td>{profile_.age}</td>
                         <td>{profile_.id}</td>
                     </tr>
