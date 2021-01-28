@@ -25,3 +25,14 @@ textarea {
     resize: none;
 }
 
+Card.Body{
+    position: relative;
+}
+
+div.primary-tweet {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    margin-left: 40px;
+    margin-top: -25px; /* half this element's height */
+}

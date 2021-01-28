@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Image } from 'react-bootstrap';
 import Select from 'react-select'
 
 export class ShowFeed extends Component {
@@ -65,8 +65,6 @@ const TweetView = (props) => {
     // This is probably not the correct way to do it.
     userNamesOptions.unshift({ value: "Show all", label: "Show all" });
 
-    // This fetches all the tweets everytime the application renders, bad...
-    // Nope, if you don't put the second empty argument above happens. This runs only once.
     useEffect(() => {
         async function fetchData() {
             const data = await props.getAllTweets();
@@ -92,6 +90,7 @@ const TweetView = (props) => {
                             key={tweet.tweetId}
                             userName={tweet.userName}
                             tweet={tweet.tweet}
+                            userId={tweet.userId}
                         />
                     )}
             </div>
@@ -102,15 +101,32 @@ const TweetView = (props) => {
 const TweetDisplay = (props) => {
     const [userName, setUserName] = useState(props.userName);
     const [tweet, setTweet] = useState(props.tweet);
+    const [userId, setUserId] = useState(props.userId);
+    
+    function profilePicUrl(userId) {
+        var path = process.env.PUBLIC_URL + "/profile_pictures/" + userId + ".png";
+        // TODO: Check if image actually exists otherwise show placeholder
+        if (true) {
+            return path;
+        } else {
+            return process.env.PUBLIC_URL + "/profile_pictures/placeholder.png";
+        }
+    }
 
     return (
         <>
         <Card>
-            <Card.Body>
-                <Card.Title>{userName}</Card.Title>
-                <Card.Text>
-                {tweet}
-                </Card.Text>
+                <Card.Body>
+                    <Image
+                        src={profilePicUrl(userId)}
+                        width="90"
+                        roundedCircle
+                        alt
+                    />
+                <div className="primary-tweet">
+                    <Card.Title>{userName}</Card.Title>
+                    <Card.Text>{tweet}</Card.Text>
+                </div>
             </Card.Body>
         </Card>
         </>
