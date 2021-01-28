@@ -1,7 +1,10 @@
 import React, { Component, useState, useEffect } from 'react';
 import { Card, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Select from 'react-select'
+import Select from 'react-select';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import ShowProfile from './ShowProfile';
 
 export class ShowFeed extends Component {
     static displayName = ShowFeed.name;
@@ -103,6 +106,7 @@ const TweetDisplay = (props) => {
     const [userName, setUserName] = useState(props.userName);
     const [tweet, setTweet] = useState(props.tweet);
     const [userId, setUserId] = useState(props.userId);
+    const [showModal, setShowModal] = useState(false);
     
     function profilePicUrl(userId) {
         var path = process.env.PUBLIC_URL + "/profile_pictures/" + userId + ".png";
@@ -114,24 +118,35 @@ const TweetDisplay = (props) => {
         }
     }
 
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);
+
     return ( 
         <>
         <Card>
-                <Card.Body id="my-card-body">
-                    <Image
-                        src={profilePicUrl(userId)}
-                        width="90"
-                        roundedCircle
-                        alt
-                    />
-                    <div className="primary-tweet">
-                        <Link to={"user/" + userId}>
-                            <Card.Title>{userName}</Card.Title>
-                        </Link>
-                    <Card.Text>{tweet}</Card.Text>
+            <Card.Body id="my-card-body">
+                <Image
+                    src={profilePicUrl(userId)}
+                    width="90"
+                    roundedCircle
+                    alt
+                />
+                <div className="primary-tweet">
+                    <Link to={"user/" + userId}>
+                        <Card.Title>{userName}</Card.Title>
+                    </Link>
+                <Card.Text>{tweet}</Card.Text>
                 </div>
             </Card.Body>
-        </Card>
+            <Button id="my-card-button" variant="primary" onClick={handleShow}>Show modal</Button>
+            </Card>
+            <Modal show={showModal} onHide={handleClose} >
+                <Modal.Body>
+                    <ShowProfile
+                        match={{ params: { userId: userId } }}
+                    />
+        </Modal.Body>
+        </Modal>
         </>
     )
 }

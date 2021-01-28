@@ -4,13 +4,11 @@ import Select from 'react-select'
 
 
 function ShowProfile({ match }) {
-    const [user, setUser] = useState({ userBio: "", userId: "", userName:"" });
-
+    const [user, setUser] = useState({ userBio: "", userId: "", userName: "" });
     useEffect(() => {
         async function fetchData() {
             var response = await fetch("api/Home/getUserById?Id=" + match.params.userId);
             var data = await response.json();
-            debugger;
             setUser({ ...data });
         }
         fetchData();
