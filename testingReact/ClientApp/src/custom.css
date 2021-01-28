@@ -25,8 +25,9 @@ textarea {
     resize: none;
 }
 
-Card.Body{
+div#my-card-body{
     position: relative;
+    min-height: 90px;
 }
 
 div.primary-tweet {

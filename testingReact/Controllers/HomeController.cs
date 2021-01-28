@@ -113,9 +113,17 @@ namespace Dapper_ORM.Controllers
         [HttpGet(nameof(GetAllUsers))]
         public Task<List<UserViewModel>> GetAllUsers()
         {
-            var sql = @"SELECT u.UserName, u.Id AS UserId FROM Users u ORDER BY u.UserName ASC";
+            var sql = @"SELECT u.UserName, u.Id AS UserId, u.Bio AS userBio FROM Users u ORDER BY u.UserName ASC";
             using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
             return Task.FromResult(db.Query<UserViewModel>(sql).ToList());
+        }
+
+        [HttpGet(nameof(GetUserById))]
+        public Task<UserViewModel> GetUserById(int id)
+        {
+            var sql = @"SELECT u.UserName, u.Id AS UserId, u.Bio AS userBio FROM Users u WHERE u.Id = @Id";
+            using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
+            return Task.FromResult(db.Query<UserViewModel>(sql, new { Id = id}).SingleOrDefault());
         }
     }
 }

@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { Card, Image } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Select from 'react-select'
 
 export class ShowFeed extends Component {
@@ -113,18 +114,20 @@ const TweetDisplay = (props) => {
         }
     }
 
-    return (
+    return ( 
         <>
         <Card>
-                <Card.Body>
+                <Card.Body id="my-card-body">
                     <Image
                         src={profilePicUrl(userId)}
                         width="90"
                         roundedCircle
                         alt
                     />
-                <div className="primary-tweet">
-                    <Card.Title>{userName}</Card.Title>
+                    <div className="primary-tweet">
+                        <Link to={"user/" + userId}>
+                            <Card.Title>{userName}</Card.Title>
+                        </Link>
                     <Card.Text>{tweet}</Card.Text>
                 </div>
             </Card.Body>
