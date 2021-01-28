@@ -1,5 +1,7 @@
 import React, { Component, useState } from 'react';
 import Alert from 'react-bootstrap/Alert'
+import Modal from 'react-bootstrap/Modal';
+import toast, { Toaster } from 'react-hot-toast'
 
 export class AddNewUser extends Component {
     static displayName = AddNewUser.name;
@@ -32,14 +34,24 @@ async function AddUserToDb(user) {
 const NewUserForm = (props) => {
     const [userName, setUserName] = useState('Nisse');
     const [age, setAge] = useState(50);
+    const [showModal, setShowModal] = useState(false);
 
     const cleanForm = () => {
         setUserName('');
         setAge('');
     }
 
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);
+
+    const handleSubmitUser = function () {
+        props.AddUserToDb({ UserName: userName, Age: age }).then(cleanForm()).finally(toast.success("User was added"));
+        handleClose();
+    }
+
     return (
         <>
+            <Toaster />
             <form className="form-group">
             <label>
                     Name:
@@ -50,22 +62,18 @@ const NewUserForm = (props) => {
             <input className="form-control" type="text" name="name" value={age} onChange={e => setAge(e.target.value)}/>
             </label>
             </form>
-            <button style={{ display: 'block' }} className="btn btn-primary" onClick={() => props.AddUserToDb({ UserName: userName, Age: age }).then(cleanForm())}>Add user</button>
+            <button style={{ display: 'block' }} className="btn btn-primary" onClick={handleShow}>Add user</button>
 
-            // TODO: make this into modal to ask if user is really sure they want to add new user
-            <Alert variant="success">
-                <Alert.Heading>Hey, nice to see you</Alert.Heading>
+            <Modal show={showModal} onHide={handleClose} >
+            <Alert variant="light">
+                <Alert.Heading>Wait a minute?!</Alert.Heading>
                 <p>
-                    Aww yeah, you successfully read this important alert message. This example
-                    text is going to run a bit longer so that you can see how spacing within an
-                    alert works with this kind of content.
+                        Are you sure you want ot add a user to this website?
                 </p>
-                <hr />
-                <p className="mb-0">
-                    Whenever you need to, be sure to use margin utilities to keep things nice
-                    and tidy.
-                </p>
+                    <button style={{ display: 'inline' }} className="btn btn-success" onClick={handleSubmitUser}>I am sure!</button>
+                    <button style={{ display: 'inline' }} className="btn btn-secondary" onClick={handleClose}>I changed my mind...</button>
             </Alert>
+            </Modal>
         </>
         )
 }

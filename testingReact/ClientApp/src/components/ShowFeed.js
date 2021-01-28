@@ -141,11 +141,11 @@ const TweetDisplay = (props) => {
             </Card.Body>
             <Button id="my-card-button" variant="primary" onClick={handleShow}>Show profile</Button>
             </Card>
-            <Modal show={showModal} onHide={handleClose} >
-                <Modal.Body>
-                    <ShowProfile
-                        match={{ params: { userId: userId } }}
-                        />
+        <Modal show={showModal} onHide={handleClose} >
+            <Modal.Body>
+                <ShowProfile
+                    match={{ params: { userId: userId } }}
+                    />
         </Modal.Body>
         </Modal>
         </>
