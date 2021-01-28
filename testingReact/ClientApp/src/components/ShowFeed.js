@@ -21,6 +21,7 @@ export class ShowFeed extends Component {
         <h1 id="tabelLabel" >Tweet feed</h1>
         <p>Enjoy!</p>
             </div>
+            {/* TODO: This will become unfeasible when the number of tweets grow */}
             <TweetView
                 getAllTweets={getAllTweets}
             />
@@ -138,13 +139,13 @@ const TweetDisplay = (props) => {
                 <Card.Text>{tweet}</Card.Text>
                 </div>
             </Card.Body>
-            <Button id="my-card-button" variant="primary" onClick={handleShow}>Show modal</Button>
+            <Button id="my-card-button" variant="primary" onClick={handleShow}>Show profile</Button>
             </Card>
             <Modal show={showModal} onHide={handleClose} >
                 <Modal.Body>
                     <ShowProfile
                         match={{ params: { userId: userId } }}
-                    />
+                        />
         </Modal.Body>
         </Modal>
         </>

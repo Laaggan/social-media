@@ -11,6 +11,7 @@ import { AddNewUser } from './components/AddNewUser';
 import { CreateTweet } from './components/CreateTweet';
 import { ShowFeed } from './components/ShowFeed';
 import ShowProfile from './components/ShowProfile';
+import { Toaster } from 'react-hot-toast'
 
 import './custom.css'
 

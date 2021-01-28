@@ -1,6 +1,7 @@
 import { data } from 'jquery';
 import React, { Component, useState, useEffect } from 'react';
-import Select from 'react-select'
+import Select from 'react-select';
+import toast, { Toaster } from 'react-hot-toast'
 
 export class CreateTweet extends Component {
     static displayName = CreateTweet.name;
@@ -52,6 +53,10 @@ const TweetForm = (props) => {
         setUserId(o.value)
     }
 
+    const handleSendMessage = () => props.AddTweetToDb(userId, tweet)
+        .then(cleanForm())
+        .finally(toast.success('Tweet is now sent!'));
+
     useEffect(() => {
         async function fetchData() {
             const data = await props.GetAllUsers()
@@ -67,6 +72,7 @@ const TweetForm = (props) => {
 
     return (
         <>
+            <Toaster />
             <Select
                 options={userNameOptions}
                 onChange={handleUserChange}
@@ -86,8 +92,7 @@ const TweetForm = (props) => {
             </label>
             </form>
 
-            {/*TODO: fix an alertify when tweet is successful*/}
-            <button style={{ display: 'block' }} className="btn btn-primary" onClick={() => props.AddTweetToDb(userId, tweet).then(cleanForm())}>Send message</button>
+            <button style={{ display: 'block' }} className="btn btn-primary" onClick={handleSendMessage}>Send message</button>
             <p> {tweet} </p>
         </>
         )
