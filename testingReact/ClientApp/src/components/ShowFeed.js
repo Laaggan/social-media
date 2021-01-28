@@ -17,11 +17,6 @@ export class ShowFeed extends Component {
         <h1 id="tabelLabel" >Tweet feed</h1>
         <p>Enjoy!</p>
             </div>
-            {/*<InputId />*/}
-            {/*<TweetDisplay
-                getProfileById={getProfileById}
-                getAllTweets={getAllTweets}
-            /> */}
             <TweetView
                 getAllTweets={getAllTweets}
             />
@@ -53,7 +48,6 @@ const TweetView = (props) => {
 
     function handleFilterNameChange(o) {
         setFilterName(o.value);
-        //setTweets(tweets.filter(t => t.userName === filterName))
     }
 
     function getUserNames(tweetsData) {
@@ -67,8 +61,11 @@ const TweetView = (props) => {
             return option
         }
     )
+    // This is probably not the correct way to do it.
     userNamesOptions.unshift({ value: "Show all", label: "Show all" });
 
+    // This fetches all the tweets everytime the application renders, bad...
+    // Nope, if you don't put the second empty argument above happens. This runs only once.
     useEffect(() => {
         async function fetchData() {
             const data = await props.getAllTweets();
@@ -97,8 +94,6 @@ const TweetView = (props) => {
                         />
                     )}
             </div>
-
-            <p>{filterName}</p>
         </>
     )
 }

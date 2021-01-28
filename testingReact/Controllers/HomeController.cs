@@ -101,5 +101,13 @@ namespace Dapper_ORM.Controllers
             using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
             return Task.FromResult(db.Query<TweetViewModel>(sql).ToList());
         }
+
+        [HttpGet(nameof(GetAllUserNames))]
+        public Task<List<string>> GetAllUserNames()
+        {
+            var sql = @"SELECT u.UserName FROM Users u ORDER BY u.UserName ASC";
+            using IDbConnection db = new SqlConnection(_config.GetConnectionString(Connectionstring));
+            return Task.FromResult(db.Query<string>(sql).ToList());
+        }
     }
 }
