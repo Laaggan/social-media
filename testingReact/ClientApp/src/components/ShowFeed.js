@@ -50,6 +50,7 @@ const TweetView = (props) => {
         setFilterName(o.value);
     }
 
+    // TODO: The distinct operation should be done on Ids and not on usernames since many users can have the same username
     function getUserNames(tweetsData) {
         const userNames = tweetsData.map(tweet => tweet.userName)
         return userNames.filter(distinct)
@@ -78,7 +79,7 @@ const TweetView = (props) => {
         <>
             <div>
                 <Select
-                    value="Show all"
+                    placeholder="Show all"
                     options={userNamesOptions}
                     onChange={handleFilterNameChange}
                 />

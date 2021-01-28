@@ -15,7 +15,7 @@ export class CreateTweet extends Component {
         <h1>Write your message below</h1>
             <TweetForm
                 AddTweetToDb={AddTweetToDb}
-                GetAllUserNames={GetAllUserNames}
+                GetAllUsers={GetAllUsers}
             />
       </div>
     );
@@ -30,8 +30,8 @@ async function AddTweetToDb(userId, tweet) {
     );
 }
 
-async function GetAllUserNames() {
-    const response = await fetch('api/Home/getAllUserNames').then(
+async function GetAllUsers() {
+    const response = await fetch('api/Home/GetAllUsers').then(
         async (response) => {
             const data = await response.json();
             return data
@@ -48,12 +48,16 @@ const TweetForm = (props) => {
         setTweet('');
     }
 
+    function handleUserChange(o) {
+        setUserId(o.value)
+    }
+
     useEffect(() => {
         async function fetchData() {
-            const data = await props.GetAllUserNames()
+            const data = await props.GetAllUsers()
             const result = data.map(
-            function (u) {
-                var option = { value: u, label: u }
+                function (u) {
+                    var option = { value: u.userId, label: u.userName }
                 return option
                 });
             setUserNameOptions([...result]);
@@ -64,8 +68,8 @@ const TweetForm = (props) => {
     return (
         <>
             <Select
-                value="Show all"
                 options={userNameOptions}
+                onChange={handleUserChange}
             />
 
             <form className="form-group">
@@ -82,7 +86,8 @@ const TweetForm = (props) => {
             </label>
             </form>
 
-            <button style={{ display: 'block' }} className="btn btn-primary" onClick={() => props.AddTweetToDb(1, tweet).then(cleanForm())}>Send message</button>
+            {/*TODO: fix an alertify when tweet is successful*/}
+            <button style={{ display: 'block' }} className="btn btn-primary" onClick={() => props.AddTweetToDb(userId, tweet).then(cleanForm())}>Send message</button>
             <p> {tweet} </p>
         </>
         )
